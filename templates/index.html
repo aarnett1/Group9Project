@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Group 9 Events Home Page</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+	
+    <body>
+		<nav>
+		    <a href="{{ url_for('index') }}">Events</a>
+            <a href="{{ url_for('new') }}">Create Event</a>
+            <a href="{{ url_for('profile') }}">My Account</a>
+            <a href="{{url_for('logout')}}">Logout</a>
+		</nav>
+
+        <div class="body">
+            <h1>Events Home Page</h1>
+
+            <br><br>
+
+            <table>
+                <tr>
+                    <th class="title">Title</th>
+                    <th class="date">Date</th>
+                    <th class="desc">Description</th>
+                </tr>
+                {% for event in index %}
+                <tr>
+                    <td><a href="{{ url_for('event', event_id=event.id) }}">{{ event.title }}</a></td>
+                    <td>{{ event.date }}</td>
+                    <td>{{ event.text }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <br><br>
+            {% if my_events %}
+            <h3>My Events</h3>
+                <table>
+                    <tr>
+                        <th class="title">Title</th>
+                        <th class="date">Date</th>
+                        <th class="desc">Description</th>
+                    </tr>
+                    {% for event in my_events %}
+                    <tr>
+                        <td><a href="{{ url_for('event', event_id=event.id) }}">{{ event.title }}</a></td>
+                        <td>{{ event.date }}</td>
+                        <td>{{ event.text }}</td>
+                        <td>
+                            <form action="{{ url_for('edit', event_id=event.id) }}" method="get">
+                                <input type="submit" value="Edit">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('delete_event', event_id=event.id) }}" method="post">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </table>
+        </div>
+    </body>
+</html>
